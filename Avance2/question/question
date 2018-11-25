@@ -1,0 +1,21 @@
+How to determine which rooms are effectively identical in a given maze
+
+The problem in question can be found [here][1]
+
+TL;DR: 
+There is a maze made up of circular rooms connected by indistinguishable corridors, the goal of players is to walk around and map out the whole maze.
+Our goal is to look at a maze and try to reduce it as much as possible.
+When looking at a maze you can compare two rooms A and B, if, when you are randomly dropped into the maze, you cannot tell whether you began in A or B these rooms are considered
+effectively identical.
+By running the maze through an algorithm we should be able to remove all effectively identical rooms thus making the maze smaller without affecting the overall feel of the maze to the players.
+More details and rules are in the aforementioned document.
+
+My intuition tells me to walk though the maze making a tree from every single node and then comparing the trees. I will include pictures for the given examples in the document.
+
+[Picture 1][2]
+[Picture 2][3]
+
+
+  [1]: https://open.kattis.com/problems/maze
+  [2]: https://i.stack.imgur.com/KVxHF.png
+  [3]: https://i.stack.imgur.com/AINzx.png

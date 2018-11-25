@@ -1,0 +1,101 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{biblatex} 
+\addbibresource{binomio.bib}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Maze Reduction\\
+{\footnotesize \textsuperscript{}Guion: Reducción de laberintos}
+}
+
+\author{\IEEEauthorblockN{Vicente Ferrari}
+\IEEEauthorblockA{\textit{Dpto. de Cs. de la computación e Informática} \\
+\textit{Universidad de la Frontera}\\
+Temuco, Chile \\
+v.ferrari01@ufromail.cl}
+\and
+\IEEEauthorblockN{Sebastián Opazo}
+\IEEEauthorblockA{\textit{Dpto. de Cs. de la computación e Informática} \\
+\textit{Universidad de la Frontera}\\
+Temuco, Chile \\
+s.opazo02@ufromail.cl}
+}
+
+\maketitle
+
+\section{Introducción}
+Primero decimos nuestros nombres y hablamos sobre el problema que elegimos.
+Personalmente elegí este problema porque me pareció bueno al leerlo, supe al tiro que iba a ser sobre grafos y arboles
+
+\section{Conceptos básicos}
+
+\subsection{En qué consiste el problema}
+
+La premisa del problema es la siguiente: Jay es dueño de un parque de atracciones
+y la atracción más popular es un laberinto. Los visitantes comienzan el laberinto en una pieza
+aleatoria y deben navegar por el laberinto con el objetivo de completar un mapa completo de este.
+Algo de lo que se percató Jay es qué podría en teoría reducir el laberinto sin que los visitantes se den cuenta.
+Si es que hay piezas que son efectivamente idénticas se podrían eliminar las que sobran.
+
+\subsection{¿Qué es un nodo?}
+Desde ahora en adelante llamaremos a las piezas "nodos" (FOTO).
+Estos nodos son representados en un diagrama como un circulo con un numero adentro para identificarlos.
+Los jugadores pueden entrar y salir de los nodos libremente pero no pueden dejar nada dentro de estos para identificarlos más tarde.
+Para los jugadores todos los nodos son exactamente iguales excepto en el numero de pasillos que salen de este, hacia donde van dichos pasillos
+y el orden en el que están, en dirección horaria.
+
+\subsection{¿Qué es un pasillo?}
+Los pasillos son la estructura que conecta un nodo a otro. Estos son todos indistinguibles de uno a otro.
+Son representados en el diagrama (FOTO) como lineas pero en la realidad pueden ser de cualquier forma, mientras sean indistinguibles
+desde el punto de vista de una persona.
+Los pasillos que salen de un nodo están dados por las entradas al programa y estos se ordenan en dirección horario (FOTO).
+
+
+\section{Otros conceptos}
+
+\subsection{Efectivamente idénticos}
+Dos nodos son efectivamente idénticos cuando y solo cuando un jugador puede comenzar el laberinto en A o B y no puede distinguir en que parte del laberinto comenzó incluso teniendo el mapa de este de antemano.
+
+\section{Entradas/Salidas}
+
+\subsection{Posibles entradas y salidas 1}
+Este es un ejemplo de una entrada al programa y una correspondiente salida. Pusimos primero el ejemplo más aburrido pero lo vamos a volver a ver despues.
+Como pueden ver, nos dan una lista (APUNTAR AL CUADRADO ROJO) de la que sacamos toda la información. El numero del nodo está implicito por el numero de linea. La primera linea es cuantos nodos hay en el laberinto, y luego van todos los nodos, el primer numero en cada nodo nos dice cuantos pasillos tiene el nodo
+y luego enumera los nodos a los que van cada pasillo, siempre en orden horario. Es interesante notar que por la naturaleza de un circulo, podemos permutar ciclicamente los nodos de un pasillo sin perder información.
+
+\subsection{Posibles entradas y salidas 2}
+Este ejemplo se pone un poco más interesante. Lo primero que hay que notar, cosa que pasó igual en el ejemplo anterior pero no importa. Lo primero que hay que darse cuenta es que los laberintos pueden tener componentes conexas como se muestra en la pantalla (MOSTRAR COMPONENTES). La componente que es completamente circular tiene una popriedad interesante. Pero ahora ya tenemos una salida. Como pueden ver si aparecemos en los nodos 1 o 2 no tenemos como distinguir entre ellos (APUNTAR A LOS NODOS). Y como les deciamos hay un conjunto maximo de nodos efectivamente identicos, el 5, 6 y 7 donde no importa en cual empezamos los 3 son indistinguibles de los otros.
+
+\subsection{Posibles entradas y salidas 3}
+El ejemplo 3 ya se pone un poco más complejo. Hay 13 nodos, 3 componentes conexas y 3 conjuntos maximales en la salida. Como pueden ver, una propiedad entretenida de las componentes circulares es que son todas indistinguibles entre sí. Es decir, si comienzo el laberinto en el nodo 8, no tengo que saber que no estoy en el 7, en el 9, 10, 11, 12 o 13. Por eso hacen un conjunto maximal de nodos efectivamente identicos, o conjunto maximal de soluciones.
+
+\subsection{Posibles entradas y salidas 4}
+Y ahora volvemos al primer ejemplo donde queremos explicar algo entretenido. ¿Cuantos piensan que el 3 y el 4 deberían ser identicos? (PREGUNTAR AL PUBLICO) Bueno la verdad es que es bastante simple. Si comienzo del nodo 3 y me voy al 1, voy a tener una rama de profundidad 2 a mi derecha y una rama de profundidad 1 a mi derecha. Mientras que si comienzo en el 4 y me voy al 1 es al revez, voy a tener una rama de profundidad 1 a mi derecha y una de 2 a mi izquierda. Es así como, teniendo el mapa completo, se podría distinguir facilmente entre el nodo 3 y 4.
+
+\section{Posible solución}
+
+\subsection{¿Qué es un árbol?}
+El concepto de "árbol" está presente en varios "campos" (JAJAJAJA), en una "rama" (AJAJAJA) de las matemáticas llamada teoría de grafos y tambien en las ciencias de la computación como una estructura de datos fundamental. Pero claramente no tenemos el tiempo asi que les daremos un resumen. Un árbol es basicamente lo que hay en pantalla (APUNTAR) comienza de una raíz y se va expandiendo por ramas. Hay arboles binarios donde cara nodo tiene solamente dos hijos o arboles abstractos de sintáxis que se ocupan para hacer analisis gramatical en los lenguajes de programación, et cetera. Esta pequeña pero poderosa estructura nos permitira pensar en alguna posible solución al problema.
+
+\subsection{Ejemplo}
+Aquí podemos ver unos de los ejemplos anteriores y algunos árboles de los nodos de este. El primer problema con el que nos encontramos es repetición. Si yo comienzo en el nodo 1 y me muevo al 2, del nodo 2 me puedo volver a mover al 1 y despues de nuevo al 2 y así. O puedo moverme del 1 al 2 al 3 al 1, denuevo al 2, al 3, al 1, et cetera. Esto se ve un poco en el primer árbol (APUNTAR). Para los siguientes dós que tenemos en pantalla ocupamos una restricción donde cada nodo puede estár solamente una vez en en cada árbol. Y formamos 2 de estos árboles, como pueden ver formar estos árboles nos permite caracterizar cada nodo con una estructura que luego podemos comparar en algún algoritmo. Si empezamos en el nodo 1 nos podemos mover al 2 y al 3, la rama del 2 termina porque el 3 ya aparecio y recuerden que los arboles se van llenando hacia abajo y de izquierda a derecha, por lo que la ultima posibilidad es moverse del 3 al 4. Si luego hacemos lo mismo empezando del nodo 2 podemos compara los arboles del 1 y del 2. La unica diferencia entre estos es la permutación del 1 y del 2 porque claro, si empezamos del 1 este va a ser la raiz y lo mismo con el 2. Si el árbol fuese más grande lo podriamos ver mejor, pero, si ignoramos esta permutacion inicial los árboles son identicos. Creemos que esta es la clave del problema. Y claramente según la salida el 1 y 2 son un conjunto maximal de nodos efectivamente identicos.
+
+\section{Planificación}
+
+\subsection{}
+ Aquí tenemos la planificación del proyecto, ya terminamos gran parte del diseño preeliminar y la preparación de la presentación y claramente la presentación estará lista momentaneamente. Luego de esto vamos a tomar feedback de los interesados (compañeros y profesor) para ver si nos faltó algo o que podemos mejorar.
+
+\subsection{}
+Luego del Feedback vamos a darnos tiempo para programar y luego preparar la siguiente presentación. El resto de la planificación se terminará durante la preparación de la segunda presentación.
+
+\section{riesgos}
+Algunos de los posibles riesgos son que entreguemos el proyecto despues del tiempo acordado, algo que no es muy raro en la industria (JAJAJA). Otro riesgo importante de nuestra parte seria dedicarle mucho tiempo al proyecto y dejar de lado otras responsabilidades.
+
+\section{Conclusión}
+Y con esto terminamos la presentación. ¿Alguna pregunta? (AL PUBLICO)
+
+\printbibliography
+
+
+\end{document}
