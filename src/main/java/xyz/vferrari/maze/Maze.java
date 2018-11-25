@@ -9,9 +9,11 @@ public class Maze {
     // such that A and B have been marked distinguishable. Then mark x and y as distinguishable. Repeat until no more
     // nodes can be marked as distinguishable.
 
+    // el laberinto esta hecho de varios nodos
     private List<Nodo> nodos = new ArrayList<Nodo>();
     private int cantidadNodos;
 
+    // la clase maze puede construirse con un arreglo multidimensional de enteros o con un String bien formateado
     Maze(int[][] nodos) {
         generarListaNodos(nodos);
         this.cantidadNodos = this.nodos.size();
