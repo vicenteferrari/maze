@@ -25,10 +25,16 @@ public class Maze {
     }
 
     private void generarListaNodos(int[][] nodos) {
-
+        // transformar arreglo a lista
     }
 
     private void generarListaNodos(String nodos) {
+        // transformar string a lista
+    }
 
+    public String solve() {
+        String output = "";
+
+        return output;
     }
 }
