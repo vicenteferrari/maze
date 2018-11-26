@@ -11,30 +11,52 @@ public class Maze {
 
     // el laberinto esta hecho de varios nodos
     private List<Nodo> nodos = new ArrayList<Nodo>();
+
     private int cantidadNodos;
 
-    // la clase maze puede construirse con un arreglo multidimensional de enteros o con un String bien formateado
-    Maze(int[][] nodos) {
-        generarListaNodos(nodos);
-        this.cantidadNodos = this.nodos.size();
-    }
+    // la clase maze puede construirse con un String bien formateado
 
     Maze(String nodos) {
         generarListaNodos(nodos);
         this.cantidadNodos = this.nodos.size();
     }
 
-    private void generarListaNodos(int[][] nodos) {
-        // transformar arreglo a lista
-    }
-
     private void generarListaNodos(String nodos) {
-        // transformar string a lista
+        String[] partes = nodos.split("\n");
+
+        this.cantidadNodos = Integer.parseInt(partes[0]);
+
+        for (int i = 1; i < partes.length; i++) {
+            this.nodos.add(new Nodo(i, partes[i]));
+        }
     }
 
     public String solve() {
         String output = "";
 
+        boolean isReady = false;
+
+        while (isReady){
+            //if () implementar algoritmo principal
+        }
+
         return output;
+    }
+
+    private void primeraPasada() {
+        for (int i = 0; i < this.nodos.size(); i++) {
+            // separar laberinto a disitntos grupos basados en sus grados.
+        }
+    }
+
+    public String toString() {
+        String ret = "";
+
+        for (int i = 0; i < this.nodos.size(); i++) {
+            ret += this.nodos.get(i).toString();
+            ret += "\n";
+        }
+
+        return ret;
     }
 }
