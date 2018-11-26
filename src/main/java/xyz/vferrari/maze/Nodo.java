@@ -26,7 +26,7 @@ public class Nodo {
     private void generarListaVecinos(String nodos) {
         String[] partes = nodos.split(" ");
 
-        for (int i = 0; i < partes.length; i++) {
+        for (int i = 1; i < partes.length; i++) {
             vecinos.add(Integer.parseInt(partes[i]));
         }
     }
@@ -34,7 +34,7 @@ public class Nodo {
     public String toString() {
         String ret = "";
 
-        ret += this.input;
+        ret += this.vecinos;
 
         return ret;
     }
