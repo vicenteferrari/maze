@@ -17,7 +17,7 @@ public class Nodo {
 
     Nodo(int id, String vecinos) {
         this.id = id;
-        this.input = id + vecinos;
+        this.input = id + " " + vecinos;
         generarListaVecinos(vecinos);
         this.grado = this.vecinos.size();
         distinguible = true;
@@ -37,5 +37,45 @@ public class Nodo {
         ret += this.input;
 
         return ret;
+    }
+
+    public List<Integer> getVecinos() {
+        return vecinos;
+    }
+
+    public void setVecinos(List<Integer> vecinos) {
+        this.vecinos = vecinos;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getGrado() {
+        return grado;
+    }
+
+    public void setGrado(int grado) {
+        this.grado = grado;
+    }
+
+    public String getInput() {
+        return input;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    public boolean isDistinguible() {
+        return distinguible;
+    }
+
+    public void setDistinguible(boolean distinguible) {
+        this.distinguible = distinguible;
     }
 }

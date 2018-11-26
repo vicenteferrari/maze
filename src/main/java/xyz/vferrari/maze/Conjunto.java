@@ -3,7 +3,7 @@ package xyz.vferrari.maze;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Grupo {
+public class Conjunto {
     private int size;
-    private List<Nodo> elementos =  new ArrayList<Nodo>();
+    private List<Nodo> elementos = new ArrayList<Nodo>();
 }
