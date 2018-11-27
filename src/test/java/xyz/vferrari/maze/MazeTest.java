@@ -6,7 +6,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MazeTest {
     @Test
-    public void mazeTest() {
+    public void mazeTest1() {
         String input = "13\n" +
                 "2 2 4\n" +
                 "3 1 3 5\n" +
@@ -23,11 +23,9 @@ public class MazeTest {
                 "2 10 12";
 
         Maze maze = new Maze(input);
-        String actual = maze.getSolution();
+        String actual = maze.toString();
 
-        String output = "2 4\n" +
-                "5 6\n" +
-                "7 8 9 10 11 12 13";
+        String output = "1 3\n" + "2 4\n" + "5 6\n" + "7 8 9 10 11 12 13";
 
         assertEquals(output, actual);
     }

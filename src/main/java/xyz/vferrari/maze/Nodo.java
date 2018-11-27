@@ -5,8 +5,12 @@ import java.util.List;
 
 public class Nodo {
 
+    // es parte de un laberinto
+    private Maze maze;
+    private List<Nodo> currentSet;
+
     // un nodo tiene varios vecinos
-    private List<Integer> vecinos = new ArrayList<Integer>();
+    private List<Nodo> vecinos = new ArrayList<Nodo>();
 
     private int id;
     private int grado;
@@ -15,35 +19,46 @@ public class Nodo {
 
     private boolean distinguible;
 
-    Nodo(int id, String vecinos) {
+    Nodo(Maze maze, int id) {
+        this.maze = maze;
         this.id = id;
-        this.input = id + " " + vecinos;
-        generarListaVecinos(vecinos);
-        this.grado = this.vecinos.size();
         distinguible = true;
     }
 
-    private void generarListaVecinos(String nodos) {
-        String[] partes = nodos.split(" ");
+    public void agregarVecino(Nodo nodo) {
+        this.vecinos.add(nodo);
+        this.grado = this.vecinos.size();
+    }
 
-        for (int i = 1; i < partes.length; i++) {
-            vecinos.add(Integer.parseInt(partes[i]));
-        }
+    public Maze getMaze() {
+        return maze;
+    }
+
+    public void setMaze(Maze maze) {
+        this.maze = maze;
+    }
+
+    public List<Nodo> getCurrentSet() {
+        return currentSet;
+    }
+
+    public void setCurrentSet(List<Nodo> currentSet) {
+        this.currentSet = currentSet;
     }
 
     public String toString() {
         String ret = "";
 
-        ret += this.vecinos;
+        ret += this.id;
 
         return ret;
     }
 
-    public List<Integer> getVecinos() {
+    public List<Nodo> getVecinos() {
         return vecinos;
     }
 
-    public void setVecinos(List<Integer> vecinos) {
+    public void setVecinos(List<Nodo> vecinos) {
         this.vecinos = vecinos;
     }
 
