@@ -5,92 +5,92 @@ import java.util.List;
 
 public class Nodo {
 
-    // es parte de un laberinto
-    private Maze maze;
-    private List<Nodo> currentSet;
+	// es parte de un laberinto
+	private Maze maze;
+	private List<Nodo> currentSet;
 
-    // un nodo tiene varios vecinos
-    private List<Nodo> vecinos = new ArrayList<Nodo>();
+	// un nodo tiene varios vecinos
+	private List<Nodo> vecinos = new ArrayList<Nodo>();
 
-    private int id;
-    private int grado;
+	private int id;
+	private int grado;
 
-    private String input;
+	private String input;
 
-    private boolean distinguible;
+	private boolean distinguible;
 
-    Nodo(Maze maze, int id) {
-        this.maze = maze;
-        this.id = id;
-        distinguible = true;
-    }
+	Nodo(Maze maze, int id) {
+		this.maze = maze;
+		this.id = id;
+		distinguible = true;
+	}
 
-    public void agregarVecino(Nodo nodo) {
-        this.vecinos.add(nodo);
-        this.grado = this.vecinos.size();
-    }
+	public void agregarVecino(Nodo nodo) {
+		this.vecinos.add(nodo);
+		this.grado = this.vecinos.size();
+	}
 
-    public Maze getMaze() {
-        return maze;
-    }
+	public Maze getMaze() {
+		return maze;
+	}
 
-    public void setMaze(Maze maze) {
-        this.maze = maze;
-    }
+	public void setMaze(Maze maze) {
+		this.maze = maze;
+	}
 
-    public List<Nodo> getCurrentSet() {
-        return currentSet;
-    }
+	public List<Nodo> getCurrentSet() {
+		return currentSet;
+	}
 
-    public void setCurrentSet(List<Nodo> currentSet) {
-        this.currentSet = currentSet;
-    }
+	public void setCurrentSet(List<Nodo> currentSet) {
+		this.currentSet = currentSet;
+	}
 
-    public String toString() {
-        String ret = "";
+	public String toString() {
+		String ret = "";
 
-        ret += this.id;
+		ret += this.id;
 
-        return ret;
-    }
+		return ret;
+	}
 
-    public List<Nodo> getVecinos() {
-        return vecinos;
-    }
+	public List<Nodo> getVecinos() {
+		return vecinos;
+	}
 
-    public void setVecinos(List<Nodo> vecinos) {
-        this.vecinos = vecinos;
-    }
+	public void setVecinos(List<Nodo> vecinos) {
+		this.vecinos = vecinos;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public int getGrado() {
-        return grado;
-    }
+	public int getGrado() {
+		return grado;
+	}
 
-    public void setGrado(int grado) {
-        this.grado = grado;
-    }
+	public void setGrado(int grado) {
+		this.grado = grado;
+	}
 
-    public String getInput() {
-        return input;
-    }
+	public String getInput() {
+		return input;
+	}
 
-    public void setInput(String input) {
-        this.input = input;
-    }
+	public void setInput(String input) {
+		this.input = input;
+	}
 
-    public boolean isDistinguible() {
-        return distinguible;
-    }
+	public boolean isDistinguible() {
+		return distinguible;
+	}
 
-    public void setDistinguible(boolean distinguible) {
-        this.distinguible = distinguible;
-    }
+	public void setDistinguible(boolean distinguible) {
+		this.distinguible = distinguible;
+	}
 }
