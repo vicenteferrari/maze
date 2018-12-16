@@ -2,6 +2,9 @@ package xyz.vferrari.maze;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class MazeTest {
@@ -23,8 +26,9 @@ public class MazeTest {
 				"2 10 12";
 
 		Maze maze = new Maze(input);
+		maze.resolver();
 		String actual = maze.toString();
-		System.out.println("Solucion: " + actual);
+		System.out.println(actual);
 		String output = "1 3\n" + "2 4\n" + "5 6\n" + "7 8 9 10 11 12 13";
 
 		assertEquals(output, actual);
@@ -42,9 +46,22 @@ public class MazeTest {
 
 		Maze maze = new Maze(input);
 		String actual = maze.toString();
-		System.out.println("Solucion: " + actual);
+		System.out.println(actual);
 		String output = "none";
 
 		assertEquals(output, actual);
+	}
+
+	@Test
+	public void claseTest() {
+		List<Nodo> set1 = new ArrayList<Nodo>();
+		set1.add(new Nodo(1));
+		set1.add(new Nodo(2));
+
+		List<Nodo> set2 = new ArrayList<Nodo>();
+		set2.add(new Nodo(3));
+
+		Clase clase = new Clase(set1, set2);
+		System.out.println("done");
 	}
 }

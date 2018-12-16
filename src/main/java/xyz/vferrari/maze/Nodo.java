@@ -17,12 +17,25 @@ public class Nodo {
 
 	private String input;
 
-	private boolean distinguible;
-
 	Nodo(Maze maze, int id) {
 		this.maze = maze;
 		this.id = id;
-		distinguible = true;
+	}
+
+	Nodo(int id) {
+		this.id = id;
+	}
+
+	public Nodo clone() {
+		return new Nodo(this.maze, this.id);
+	}
+
+	public boolean equals(Nodo n) {
+		if (n.getId() == this.id) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void agregarVecino(Nodo nodo) {
@@ -84,13 +97,5 @@ public class Nodo {
 
 	public void setInput(String input) {
 		this.input = input;
-	}
-
-	public boolean isDistinguible() {
-		return distinguible;
-	}
-
-	public void setDistinguible(boolean distinguible) {
-		this.distinguible = distinguible;
 	}
 }

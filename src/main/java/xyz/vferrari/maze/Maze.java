@@ -4,36 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Maze {
-	// Define the degree of a room to be the number of rooms to which it connects. You will want to compare pairs of
-	// distinct rooms. Initially, two rooms are distinguishable if their degrees are different. Now on the second iteration,
-	// look at rooms x, y that you have not marked as distinguishable. Suppose that x has a neighbor A and y neighbor B,
-	// such that A and B have been marked distinguishable. Then mark x and y as distinguishable. Repeat until no more
-	// nodes can be marked as distinguishable.
+/*
+Definimos el grado de un nodo como el numero de vecinos al que ese nodo conecta.
+Luego queremos comparar pares de nodos de piezas distinguibles. Inicialmente, dos piezas son distinguibles si su grado
+es distinto.
+
+Despues, comparamos pares que no han sido marcados distinguibles, i.e. son de la misma clase de equivalencia.
+Suponga que x tiene un vecino A e y tiene un vecino B, tal que A y B han sido marcados distinguibles, i.e. son de clases distintas.
+Entonces marque x e y como distinguibles. Repetir hasta que no queden nodos que se pueden marcar distinguibles.
+*/
 
 	// el laberinto esta hecho de varios nodos
 	private List<Nodo> nodos = new ArrayList<Nodo>();
-	private String input;
 
-	private List<List<Nodo>> conjuntos = new ArrayList<List<Nodo>>();
-	private List<List<Nodo>> conjuntosAnteriores = new ArrayList<List<Nodo>>();
+	// el laberinto tambien tiene una lista variable de clases de equivalencia
+	private List<Clase> clases = new ArrayList<Clase>();
 
 	private int cantidadNodos;
-	private int gradoMasAlto = 0; // TODO: implementar - luego hacer conjuntos para todos los grados hasta el mas alto
-	// luego poner cada nodo en su conjunto con su grado. no se si usar Set o Conjunto...
-	private String solution;
 
-	// la clase maze puede construirse con un String bien formateado
+	private int gradoMasAlto;
+	// luego poner cada nodo en su conjunto con su grado. no se si usar Set o Conjunto...
+
+	// todo: gotta implemet a conjunto class to be able to do proper copy and equals.
+
+	// la clase maze puede construirse con un String bien formado
 
 	Maze(String input) {
-		this.input = input;
-		generarNodos();
-		this.cantidadNodos = this.nodos.size();
-
-		solve();
+		generarNodos(input);
 	}
 
-	private void generarNodos() {
-		String[] partes = this.input.split("\n");
+	private void generarNodos(String input) {
+		String[] partes = input.split("\n");
 
 		this.cantidadNodos = Integer.parseInt(partes[0]);
 
@@ -51,21 +52,32 @@ public class Maze {
 				}
 			}
 		}
+
+		this.cantidadNodos = this.nodos.size();
+		gradoMasAlto();
 	}
 
-	public void solve() {
-		String output = "";
+	public void resolver() {
 
-		gradoMasAlto();
 		hacerConjuntos();
 		primeraPasada();
-		System.out.println("Conjuntos despues de la primera pasada: " + this.conjuntos.toString());
+		System.out.println("Conjuntos despues de la primera pasada: " + clases.toString());
 		siguientesPasadas();
+		//ultimaPasada();
 	}
 
 	private void hacerConjuntos() {
 		for (int i = 0; i <= this.gradoMasAlto; i++) {
-			this.conjuntos.add(new ArrayList<Nodo>());
+			this.clases.add(new ArrayList<Nodo>());
+		}
+	}
+
+	private void eliminarConjuntosVacios() {
+		for (int i = 0; i < this.conjuntos.size(); i++) {
+			if (this.conjuntos.get(i).size() == 0) {
+				this.conjuntos.remove(this.conjuntos.get(i));
+				i--;
+			}
 		}
 	}
 
@@ -74,16 +86,25 @@ public class Maze {
 			this.conjuntos.get(n.getGrado()).add(n);
 			n.setCurrentSet(this.conjuntos.get(n.getGrado()));
 		}
+
+		eliminarConjuntosVacios();
 	}
 
 	private void siguientesPasadas() {
-		eliminarConjuntosVacios();
-		System.out.println("Conjuntos despues de eliminar vacios: " + this.conjuntos.toString());
-
 		boolean isReady = false;
 
+		List<List<Nodo>> claseAnterior = new ArrayList<List<Nodo>>();
+
+		for (List<Nodo> l : this.conjuntos) {
+			claseAnterior.add(new ArrayList<Nodo>());
+			for (Nodo n : l) {
+				claseAnterior.get(this.conjuntos.indexOf(l)).add(n.clone());
+			}
+		}
+
+		boolean test = this.conjuntos.equals(claseAnterior);
+
 		while (!isReady) {
-			this.conjuntosAnteriores = this.conjuntos;
 
 			// en este momento tenemos los conjuntos por grados
 			// tenemos que comparar los elementos del primer conjunto entre si
@@ -100,10 +121,9 @@ public class Maze {
 
 			for(int i = this.conjuntos.size() - 1; i >= 0; i--) {
 				List<Nodo> currentSet = this.conjuntos.get(i);
+
 				for (int j = 1; j < currentSet.size(); j++) {
-					if (areNodesEquivalent(currentSet.get(0), currentSet.get(j))) {
-						continue;
-					} else {
+					if (!sonEquivalentes(currentSet.get(0), currentSet.get(j))) {
 						Nodo nodoTemp = currentSet.get(j);
 						currentSet.remove(nodoTemp);
 						j--;
@@ -113,7 +133,7 @@ public class Maze {
 
 						boolean fits = true;
 						for (int k = 0; k < this.conjuntos.size(); k++) {
-							if(areNodesEquivalent(this.conjuntos.get(k).get(0), nodoTemp)) {
+							if(sonEquivalentes(this.conjuntos.get(k).get(0), nodoTemp)) {
 								this.conjuntos.get(k).add(nodoTemp);
 								break;
 							} else if (k == this.conjuntos.size() - 1) {
@@ -129,14 +149,37 @@ public class Maze {
 				}
 			}
 
-			if (this.conjuntosAnteriores.equals(this.conjuntos)) {
+			if (claseAnterior.equals(this.conjuntos)) {
 				isReady = true;
 			}
 		}
 
 	}
 
-//    public String getSolucion() {}
+	private void ultimaPasada() {
+		// cuando terminar las pasadas hay que revisar todos los conjuntos que quedan
+		// se eliminan los conjuntos con solo 1 elemento
+		// luego revisamos todos los que quedan, revisamos todas las combinaciones posibles de estos.
+		// es decir si tenemos conjunto {2, 5, 7} debemos revisar (2,5), (2, 7), (5, 7).
+		// formamos los arboles de cada elemento del par y revisamos su orden.
+		// si el orden de estos no es el mismo, es decir, las clases a las que pertenecen los
+		// elementos del arbol cambia, este par no es equivalente
+	}
+
+	private boolean sonEquivalentes(Nodo nodo1, Nodo nodo2) {
+		if(nodo1.getGrado() != nodo2.getGrado()) return false;
+		for (int i = 0; i < nodo1.getVecinos().size(); i++) {
+			for (int j = 0; j < nodo2.getVecinos().size(); j++) {
+				if (i == j) {
+					if (!nodo1.getVecinos().get(i).getCurrentSet().equals(nodo2.getVecinos().get(j).getCurrentSet())) {
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
 
 	public String toString() {
 		String ret = "";
@@ -170,67 +213,11 @@ public class Maze {
 		return ret;
 	}
 
-	private void eliminarConjuntosVacios() {
-		for (int i = 0; i < this.conjuntos.size(); i++) {
-			if (this.conjuntos.get(i).size() == 0) {
-				this.conjuntos.remove(this.conjuntos.get(i));
-				i--;
-			}
-		}
-	}
-
-	private boolean areNodesEquivalent (Nodo nodo1, Nodo nodo2) {
-		if(nodo1.getGrado() != nodo2.getGrado()) return false;
-		for (int i = 0; i < nodo1.getVecinos().size(); i++) {
-			for (int j = 0; j < nodo2.getVecinos().size(); j++) {
-				if (i == j) {
-					if (!nodo1.getVecinos().get(i).getCurrentSet().equals(nodo2.getVecinos().get(j).getCurrentSet())) {
-						return false;
-					}
-				}
-			}
-		}
-
-		return true;
-	}
-
 	private void gradoMasAlto() {
 		for (Nodo n : this.nodos) {
 			if (n.getGrado() > this.gradoMasAlto) {
 				this.gradoMasAlto = n.getGrado();
 			}
 		}
-	}
-
-	public List<Nodo> getNodos() {
-		return nodos;
-	}
-
-	public void setNodos(List<Nodo> nodos) {
-		this.nodos = nodos;
-	}
-
-	public int getCantidadNodos() {
-		return cantidadNodos;
-	}
-
-	public void setCantidadNodos(int cantidadNodos) {
-		this.cantidadNodos = cantidadNodos;
-	}
-
-	public int getGradoMasAlto() {
-		return gradoMasAlto;
-	}
-
-	public void setGradoMasAlto(int gradoMasAlto) {
-		this.gradoMasAlto = gradoMasAlto;
-	}
-
-	public String getSolution() {
-		return solution;
-	}
-
-	public void setSolution(String solution) {
-		this.solution = solution;
 	}
 }
