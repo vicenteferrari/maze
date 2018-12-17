@@ -1,33 +1,44 @@
 package xyz.vferrari.maze;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Nodo {
 
-	// es parte de un laberinto
-	private Maze maze;
-	private List<Nodo> currentSet;
+	private Clase clase;
 
 	// un nodo tiene varios vecinos
-	private List<Nodo> vecinos = new ArrayList<Nodo>();
+	private ArrayList<Nodo> vecinos = new ArrayList<Nodo>();
 
 	private int id;
 	private int grado;
 
 	private String input;
 
-	Nodo(Maze maze, int id) {
-		this.maze = maze;
-		this.id = id;
-	}
-
 	Nodo(int id) {
 		this.id = id;
 	}
 
+
+
+	public boolean equivalentes(Nodo nodo2) {
+		if(this.getGrado() != nodo2.getGrado()) return false;
+
+		for (int i = 0; i < this.getVecinos().size(); i++) {
+			for (int j = 0; j < nodo2.getVecinos().size(); j++) {
+				if (i == j) {
+					if (!this.getVecinos().get(i).getClase().equals(nodo2.getVecinos().get(j).getClase())) {
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
 	public Nodo clone() {
-		return new Nodo(this.maze, this.id);
+		Nodo n = new Nodo(this.id);
+		return n;
 	}
 
 	public boolean equals(Nodo n) {
@@ -43,20 +54,12 @@ public class Nodo {
 		this.grado = this.vecinos.size();
 	}
 
-	public Maze getMaze() {
-		return maze;
+	public Clase getClase() {
+		return clase;
 	}
 
-	public void setMaze(Maze maze) {
-		this.maze = maze;
-	}
-
-	public List<Nodo> getCurrentSet() {
-		return currentSet;
-	}
-
-	public void setCurrentSet(List<Nodo> currentSet) {
-		this.currentSet = currentSet;
+	public void setClase(Clase clase) {
+		this.clase = clase;
 	}
 
 	public String toString() {
@@ -67,11 +70,11 @@ public class Nodo {
 		return ret;
 	}
 
-	public List<Nodo> getVecinos() {
+	public ArrayList<Nodo> getVecinos() {
 		return vecinos;
 	}
 
-	public void setVecinos(List<Nodo> vecinos) {
+	public void setVecinos(ArrayList<Nodo> vecinos) {
 		this.vecinos = vecinos;
 	}
 
