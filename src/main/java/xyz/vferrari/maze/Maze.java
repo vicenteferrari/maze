@@ -18,6 +18,7 @@ public class Maze {
 	private ArrayList<Nodo> nodos = new ArrayList<Nodo>();
 	private int cantidadNodos;
 	private int gradoMasAlto;
+	private String input;
 
 	// el laberinto tambien tiene una lista variable de equivalencias de equivalencia
 	private ArrayList<Equivalencia> equivalencias = new ArrayList<Equivalencia>();
@@ -29,6 +30,8 @@ public class Maze {
 	// la clase maze puede construirse con un String bien formado
 
 	Maze(String input) {
+		this.input = input;
+//		generarAL();
 		generarNodos(input);
 		gradoMasAlto();
 		init();
@@ -41,7 +44,7 @@ public class Maze {
 		this.cantidadNodos = Integer.parseInt(partes[0]);
 
 		for (int i = 1; i < partes.length; i++) {
-			this.nodos.add(new Nodo(i));
+			this.nodos.add(new Nodo(this, i));
 		}
 
 		for (int i = 1; i < partes.length; i++) {
@@ -56,12 +59,16 @@ public class Maze {
 		}
 
 		this.cantidadNodos = this.nodos.size();
+
+		for (int i = 0; i < this.nodos.size(); ++i) {
+			this.nodos.get(i).generarArbol();
+		}
 	}
 
 	public void resolver() {
 		generarEquivalencia0();
 		this.equivalencias.get(0).eliminarClasesVacias();
-		System.out.println("Equivalencia 0: " + this.toString());
+//		System.out.println("Equivalencia 0: " + this.toString());
 		siguientesPasadas();
 		//ultimaPasada();
 	}
@@ -83,8 +90,8 @@ public class Maze {
 	private void siguientesPasadas() {
 
 		/*
-			Queremos generar nuevas equivalencias partiendo de la clase 0.
-			Terminamos cuando la clase n es igual a la nclase n-1
+			Queremos generar nuevas equivalencias partiendo de la equivalencia 0.
+			Terminamos cuando la equivalencia n es igual a la equivalencia n-1
 		 */
 
 		int index = 0;
@@ -96,8 +103,10 @@ public class Maze {
 			this.equivalencias.add(current.reducir());
 
 			if (index > 0)
-				if (this.equivalencias.get(index).equals(this.equivalencias.get(index - 1)))
+				if (!compareEquivalencias(this.equivalencias.get(index), this.equivalencias.get(index - 1))) {
+					ultimaPasada(this.equivalencias.get(this.equivalencias.size() - 1));
 					break;
+				}
 
 			++index;
 		}
@@ -119,7 +128,19 @@ public class Maze {
 
 	}
 
-	private void ultimaPasada() {
+	private void ultimaPasada(Equivalencia equivalencia) {
+		//primero nos aseguramos que los nodos tengan las clases correctas.
+
+		Equivalencia ultima = this.equivalencias.get(this.equivalencias.size() - 1);
+
+		for (int i = 0; i < ultima.size(); ++i) {
+			Clase clase = ultima.getClase(i);
+
+			for (int j = 0; j < clase.size(); ++j) {
+				clase.get(j).setClase(clase);
+			}
+		}
+
 		// cuando terminar las pasadas hay que revisar todos los conjuntos que quedan
 		// se eliminan los conjuntos con solo 1 elemento
 		// luego revisamos todos los que quedan, revisamos todas las combinaciones posibles de estos.
@@ -127,16 +148,96 @@ public class Maze {
 		// formamos los arboles de cada elemento del par y revisamos su orden.
 		// si el orden de estos no es el mismo, es decir, las equivalencias a las que pertenecen los
 		// elementos del arbol cambia, este par no es equivalente
+
+		removerClasesSolas(equivalencia);
+
+		// luego de remover las clases con 1 solo elemento revisamos las restante, generando los arboles de todos los nodos
+		// y comparando estos arboles buscando diferencias en el orden de las clases
+		for (int i = 0; i < equivalencia.size(); ++i) {
+			for (int j = 0; j < equivalencia.getClase(i).realSize(); ++j) {
+				for (int k = 0; k < equivalencia.getClase(i).realSize(); ++k) {
+					if (j != k) {
+						ArbolNodo nodo1 = equivalencia.getClase(i).get(j).getArbol().getRaiz();
+						ArbolNodo nodo2 = equivalencia.getClase(i).get(k).getArbol().getRaiz();
+						if (!compareTrees(nodo1, nodo2)) {
+							equivalencia.getClase(i).remove(nodo2.getElemento());
+						}
+					}
+				}
+			}
+		}
+
+		removerClasesSolas(equivalencia);
+
 	}
 
+	private void removerClasesSolas(Equivalencia equivalencia) {
+		for (int i = 0; i < equivalencia.size(); ++i) {
+			Clase currentClase = equivalencia.getClase(i);
 
+			if (currentClase.realSize() == 1) {
+				equivalencia.remove(i);
+				--i;
+			}
+		}
+	}
+
+	private boolean compareTrees(ArbolNodo nodo1, ArbolNodo nodo2) {
+		if (!nodo1.getElemento().getClase().equals(nodo2.getElemento().getClase())) return false;
+
+		if (nodo1.getHijos().size() != 0 && nodo2.getHijos().size() != 0) {
+			for (int i = 0; i < nodo1.getHijos().size(); ++i) {
+				return compareTrees(nodo1.getHijos().get(i), nodo2.getHijos().get(i));
+			}
+		}
+
+
+		return true;
+	}
+
+//	private boolean compareTrees(Arbol arbol1, Arbol arbol2) {
+//		int index = 0;
+//		while (true) {
+//			for ()
+//
+//				++index;
+//		}
+//	}
+
+	private boolean compareEquivalencias(Equivalencia e1, Equivalencia e2) {
+		for (int i = 0; i < e1.getClases().size(); ++i) {
+			for (int j = 0; j < e2.getClases().size(); ++j) {
+				if(!compareClases(e1.getClase(i), e2.getClase(j))) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	private boolean compareClases(Clase c1, Clase c2) {
+		for (int i = 0; i < c1.realSize(); ++i) {
+			for (int j = 0; j < c2.realSize(); ++j) {
+				if (!c1.get(i).equals(c2.get(j))) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
 
 	public String toString() {
 		String ret = "";
 
-		for (Equivalencia e : equivalencias) {
-			for (Clase c : e.getClases()) {
-				ret += c.toString();
+		Equivalencia ultima = this.equivalencias.get(this.equivalencias.size() - 1);
+
+		if (ultima.size() == 0) {
+			ret += "none";
+		} else {
+			for (int i = 0; i < ultima.getClases().size(); ++i) {
+				ret += ultima.getClase(i).toString();
 				ret += "\n";
 			}
 		}
@@ -174,6 +275,28 @@ public class Maze {
 		}
 
 		return ret;
+	}
+
+	public int getCantidadNodos() {
+		return cantidadNodos;
+	}
+
+	public void setCantidadNodos(int cantidadNodos) {
+		this.cantidadNodos = cantidadNodos;
+	}
+
+	public Nodo[] getNodos() {
+		Nodo[] nodos = new Nodo[this.cantidadNodos];
+
+		for (int i = 0; i < this.nodos.size(); ++i) {
+			nodos[i] = this.nodos.get(i);
+		}
+
+		return nodos;
+	}
+
+	public void setNodos(ArrayList<Nodo> nodos) {
+		this.nodos = nodos;
 	}
 
 	private void gradoMasAlto() {

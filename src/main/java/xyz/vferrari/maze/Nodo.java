@@ -1,10 +1,14 @@
 package xyz.vferrari.maze;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 public class Nodo {
 
+	private Maze maze;
 	private Clase clase;
+	private Arbol arbol;
+
 
 	// un nodo tiene varios vecinos
 	private ArrayList<Nodo> vecinos = new ArrayList<Nodo>();
@@ -14,13 +18,46 @@ public class Nodo {
 
 	private String input;
 
-	Nodo(int id) {
+	Nodo(Maze maze, int id) {
 		this.id = id;
+		this.maze = maze;
+		arbol = new Arbol(new ArbolNodo(this), this.maze);
+		this.arbol.getRaiz().setArbol(arbol);
 	}
 
 
 
 	public boolean equivalentes(Nodo nodo2) {
+//		if (nodo2.getClase() == null) {
+//			System.out.println("Node 2 was null");
+//		} else {
+//			System.out.println("NODOS:");
+//			System.out.println(this);
+//			System.out.println(nodo2);
+//		}
+//
+//		System.out.println("==============================================");
+//
+//		if (this.getClase() == null || nodo2.getClase() == null) {
+//			System.out.println("A node had a null class");
+//		} else {
+//			System.out.println("CLASES:");
+//			System.out.println(this.getClase());
+//			System.out.println(nodo2.getClase());
+//		}
+//
+//		System.out.println("==============================================");
+//
+//		if (this.getVecinos() == null || nodo2.getVecinos() == null) {
+//			System.out.println("A node had null neighbours");
+//		} else {
+//			System.out.println("VECINOS:");
+//			System.out.println(this.getVecinos());
+//			System.out.println(nodo2.getVecinos());
+//		}
+//
+//		System.out.println("==============================================");
+
 		if(this.getGrado() != nodo2.getGrado()) return false;
 
 		for (int i = 0; i < this.getVecinos().size(); i++) {
@@ -36,8 +73,12 @@ public class Nodo {
 		return true;
 	}
 
+	public void generarArbol() {
+		this.arbol.getRaiz().generarArbol();
+	}
+
 	public Nodo clone() {
-		Nodo n = new Nodo(this.id);
+		Nodo n = new Nodo(this.maze, this.id);
 		return n;
 	}
 
@@ -52,6 +93,14 @@ public class Nodo {
 	public void agregarVecino(Nodo nodo) {
 		this.vecinos.add(nodo);
 		this.grado = this.vecinos.size();
+	}
+
+	public Arbol getArbol() {
+		return arbol;
+	}
+
+	public void setArbol(Arbol arbol) {
+		this.arbol = arbol;
 	}
 
 	public Clase getClase() {

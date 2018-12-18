@@ -24,6 +24,7 @@ public class Clase implements Iterable<Nodo>{
 		for (int i = 0; i < clase.elements.length; ++i) {
 			add(clase.elements[i]);
 		}
+		removeNull();
 	}
 
 	//Add method
@@ -34,13 +35,22 @@ public class Clase implements Iterable<Nodo>{
 		elements[size++] = e;
 	}
 
+	private void removeNull() {
+		for (int i = 0; i < elements.length; ++i) {
+			if (elements[i] == null) remove(i);
+		}
+		makeSmaller();
+	}
+
 	//Get method
 	@SuppressWarnings("unchecked")
 	public Nodo get(int i) {
 		if (i >= size || i < 0) {
+			System.out.println(this + " WITH INDEX: " +i);
+			System.out.println(this.elements[0].getClase());
 			throw new IndexOutOfBoundsException("Index: " + i + ", Size " + i);
 		}
-		return (Nodo) elements[i];
+		return elements[i];
 	}
 
 	public Nodo[] getElements() {
@@ -55,6 +65,7 @@ public class Clase implements Iterable<Nodo>{
 			System.arraycopy(elements, index+1, elements, index, numMoved);
 
 		elements[--size] = null; // Let gc do its work
+//		removeNull();
 
 		return oldValue;
 	}
@@ -80,6 +91,16 @@ public class Clase implements Iterable<Nodo>{
 	//Get Size of list
 	public int size() {
 		return size;
+	}
+
+	public int realSize() {
+		int i = 0;
+
+		for (int j = 0; j < elements.length; ++j) {
+			if (elements[j] != null) i++;
+		}
+
+		return i;
 	}
 
 	//Print method
@@ -141,5 +162,11 @@ public class Clase implements Iterable<Nodo>{
 	private void ensureCapacity() {
 		int newSize = elements.length + 1;
 		elements = Arrays.copyOf(elements, newSize);
+	}
+
+	private void makeSmaller() {
+		int rs = realSize();
+		if (realSize() < size())
+		elements = Arrays.copyOf(elements, rs);
 	}
 }

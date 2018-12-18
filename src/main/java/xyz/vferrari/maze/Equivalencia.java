@@ -40,23 +40,27 @@ public class Equivalencia {
 
 		for (int i = 0; i < siguiente.getClases().size(); ++i) {
 			Clase currentClase = siguiente.get(i);
-			// todo: change most of following code doesn't conform to new design
+			Nodo nodoBase = currentClase.get(0);
 
-			for (int j = 1; j < currentClase.size(); ++j) {
-				if (!currentClase.get(0).equivalentes(currentClase.get(j))) {
-					Nodo nodoTemp = currentClase.get(j);
+			for (int j =1; j < currentClase.size(); ++j) {
+				// we loop through all elements of class, comparing against the very first one.
+				Nodo nodoTemp = currentClase.get(j);
+
+				boolean sonEquivalentes = nodoBase.equivalentes(nodoTemp);
+
+				if (!sonEquivalentes) {
 					currentClase.remove(nodoTemp);
 					--j;
-					Clase claseTemp = new Clase(currentClase);
-					siguiente.remove(claseTemp);
-					siguiente.addClase(0, claseTemp);
 
 					boolean fits = true;
-					for (int k = 0; k < this.clases.size(); k++) {
-						if(this.clases.get(k).get(0).equivalentes(nodoTemp)) {
-							this.clases.get(k).add(nodoTemp);
+
+					for (int k = 0; k < siguiente.getClases().size(); k++) {
+						Nodo nodoPivote = siguiente.getClases().get(k).get(0);
+
+						if(nodoPivote.equivalentes(nodoTemp)) {
+							siguiente.getClases().get(k).add(nodoTemp);
 							break;
-						} else if (k == this.clases.size() - 1) {
+						} else if (k == siguiente.getClases().size() - 1) {
 							fits = false;
 						}
 					}
@@ -67,6 +71,32 @@ public class Equivalencia {
 					}
 				}
 			}
+
+//			for (int j = 1; j < currentClase.size(); ++j) {
+//				if (!currentClase.get(0).equivalentes(currentClase.get(j))) {
+//					Nodo nodoTemp = currentClase.get(j);
+//					currentClase.remove(nodoTemp);
+//					--j;
+//					Clase claseTemp = new Clase(currentClase);
+//					siguiente.remove(claseTemp);
+//					siguiente.addClase(0, claseTemp);
+//
+//					boolean fits = true;
+//					for (int k = 0; k < this.clases.size(); k++) {
+//						if(this.clases.get(k).get(0).equivalentes(nodoTemp)) {
+//							this.clases.get(k).add(nodoTemp);
+//							break;
+//						} else if (k == this.clases.size() - 1) {
+//							fits = false;
+//						}
+//					}
+//
+//					if (!fits) {
+//						siguiente.addClase(new Clase());
+//						siguiente.get(siguiente.size() - 1).add(nodoTemp);
+//					}
+//				}
+//			}
 		}
 
 //		for(int i = siguiente.size() - 1; i >= 0; i--) {
@@ -157,16 +187,23 @@ public class Equivalencia {
 	}
 
 	public Clase remove(int index) {
-		Clase oldValue = this.clases.get(index);
+		Clase ret = this.clases.remove(index);
+		this.size = this.clases.size();
+		return ret;
 
-		int numMoved = size - index - 1;
-		if (numMoved > 0)
-			System.arraycopy(this.clases, index+1, this.clases, index, numMoved);
-
-		this.clases.set(--size, null); // Let gc do its work
-
-		return oldValue;
 	}
+
+//	public Clase remove(int index) {
+//		Clase oldValue = this.clases.get(index);
+//
+//		int numMoved = size - index - 1;
+//		if (numMoved > 0)
+//			System.arraycopy(this.clases.toArray(), index+1, this.clases.to, index, numMoved);
+//
+//		this.clases.set(--size, null); // Let gc do its work
+//
+//		return oldValue;
+//	}
 
 	public boolean remove(Clase o) {
 		if (o == null) {

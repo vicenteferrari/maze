@@ -28,20 +28,20 @@ public class MazeTest {
 		Maze maze = new Maze(input);
 		String actual = maze.toString();
 		System.out.println(actual);
-		String output = "1 3\n" + "2 4\n" + "5 6\n" + "7 8 9 10 11 12 13";
+		String output = "2 4\n" + "5 6\n" + "7 8 9 10 11 12 13\n";
 
 		assertEquals(output, actual);
 	}
 
 	@Test
 	public void mazeTest2() {
-		String input = "6\n" +
-				"3 3 4 5\n" +
-				"0\n" +
-				"1 1\n" +
-				"1 1\n" +
-				"2 1 6\n" +
-				"1 5";
+		String input = 	"6\n" +
+						"3 3 4 5\n" +
+						"0\n" +
+						"1 1\n" +
+						"1 1\n" +
+						"2 1 6\n" +
+						"1 5";
 
 		Maze maze = new Maze(input);
 		String actual = maze.toString();
@@ -50,17 +50,4 @@ public class MazeTest {
 
 		assertEquals(output, actual);
 	}
-
-//	@Test
-//	public void claseTest() {
-//		List<Nodo> set1 = new ArrayList<Nodo>();
-//		set1.add(new Nodo(1));
-//		set1.add(new Nodo(2));
-//
-//		List<Nodo> set2 = new ArrayList<Nodo>();
-//		set2.add(new Nodo(3));
-//
-//		Equivalencia equivalencia = new Equivalencia(set1, set2);
-//		System.out.println("done");
-//	}
 }
