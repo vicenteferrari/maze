@@ -28,35 +28,6 @@ public class Nodo {
 
 
 	public boolean equivalentes(Nodo nodo2) {
-//		if (nodo2.getClase() == null) {
-//			System.out.println("Node 2 was null");
-//		} else {
-//			System.out.println("NODOS:");
-//			System.out.println(this);
-//			System.out.println(nodo2);
-//		}
-//
-//		System.out.println("==============================================");
-//
-//		if (this.getClase() == null || nodo2.getClase() == null) {
-//			System.out.println("A node had a null class");
-//		} else {
-//			System.out.println("CLASES:");
-//			System.out.println(this.getClase());
-//			System.out.println(nodo2.getClase());
-//		}
-//
-//		System.out.println("==============================================");
-//
-//		if (this.getVecinos() == null || nodo2.getVecinos() == null) {
-//			System.out.println("A node had null neighbours");
-//		} else {
-//			System.out.println("VECINOS:");
-//			System.out.println(this.getVecinos());
-//			System.out.println(nodo2.getVecinos());
-//		}
-//
-//		System.out.println("==============================================");
 
 		if(this.getGrado() != nodo2.getGrado()) return false;
 

@@ -144,16 +144,6 @@ public class Clase implements Iterable<Nodo>{
 
 	}
 
-//	public Clase clone() {
-//		Clase ret = new Clase();
-//
-//		for (int i = 0; i < this.elements.length; i++) {
-//			ret.add(this.elements[i]);
-//		}
-//
-//		return ret;
-//	}
-
 	@SuppressWarnings("unchecked")
 	public Iterator<Nodo> iterator() {
 		return (Iterator<Nodo>) Arrays.asList(this.elements);

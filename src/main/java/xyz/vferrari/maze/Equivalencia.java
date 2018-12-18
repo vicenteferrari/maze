@@ -23,16 +23,6 @@ public class Equivalencia {
 		this.size = this.clases.size();
 	}
 
-	Equivalencia(ArrayList<Clase> clases) {
-		this.clases = clases;
-	}
-
-//	Equivalencia(Clase... clases) {
-//		this.clases = new ArrayList<Clase>();
-//		for (Clase c : clases) {
-//			this.clases.add(new Clase());
-//		}
-//	}
 
 	public Equivalencia reducir() {
 
@@ -71,63 +61,7 @@ public class Equivalencia {
 					}
 				}
 			}
-
-//			for (int j = 1; j < currentClase.size(); ++j) {
-//				if (!currentClase.get(0).equivalentes(currentClase.get(j))) {
-//					Nodo nodoTemp = currentClase.get(j);
-//					currentClase.remove(nodoTemp);
-//					--j;
-//					Clase claseTemp = new Clase(currentClase);
-//					siguiente.remove(claseTemp);
-//					siguiente.addClase(0, claseTemp);
-//
-//					boolean fits = true;
-//					for (int k = 0; k < this.clases.size(); k++) {
-//						if(this.clases.get(k).get(0).equivalentes(nodoTemp)) {
-//							this.clases.get(k).add(nodoTemp);
-//							break;
-//						} else if (k == this.clases.size() - 1) {
-//							fits = false;
-//						}
-//					}
-//
-//					if (!fits) {
-//						siguiente.addClase(new Clase());
-//						siguiente.get(siguiente.size() - 1).add(nodoTemp);
-//					}
-//				}
-//			}
 		}
-
-//		for(int i = siguiente.size() - 1; i >= 0; i--) {
-//			Clase currentClase = siguiente.get(i);
-//
-//			for (int j = 1; j < currentClase.size(); j++) {
-//				if (!currentClase.get(0).equivalentes(currentClase.get(j))) {
-//					Nodo nodoTemp = currentClase.get(j);
-//					currentClase.remove(nodoTemp);
-//					j--;
-//					Clase claseTemp = new Clase(currentClase);
-//					siguiente.remove(claseTemp);
-//					siguiente.addClase(0, claseTemp);
-//
-//					boolean fits = true;
-//					for (int k = 0; k < this.clases.size(); k++) {
-//						if(this.clases.get(k).get(0).equivalentes(nodoTemp)) {
-//							this.clases.get(k).add(nodoTemp);
-//							break;
-//						} else if (k == this.clases.size() - 1) {
-//							fits = false;
-//						}
-//					}
-//
-//					if (!fits) {
-//						siguiente.addClase(new Clase());
-//						siguiente.get(siguiente.size() - 1).add(nodoTemp);
-//					}
-//				}
-//			}
-//		}
 
 		return siguiente;
 	}
@@ -157,19 +91,6 @@ public class Equivalencia {
 			}
 		}
 
-//		for (Clase c : this.clases) {
-//			if (c.size() == 0) {
-//				this.clases.remove(this.clases.indexOf(c));
-//			}
-//		}
-
-//		for (int i = 0; i < this.clases.size(); i++) {
-//			if (this.clases.get(i).size() == 0) {
-//				this.clases.remove(this.clases.get(i));
-//				i--;
-//			}
-//		}
-
 		this.size = this.clases.size();
 	}
 
@@ -192,18 +113,6 @@ public class Equivalencia {
 		return ret;
 
 	}
-
-//	public Clase remove(int index) {
-//		Clase oldValue = this.clases.get(index);
-//
-//		int numMoved = size - index - 1;
-//		if (numMoved > 0)
-//			System.arraycopy(this.clases.toArray(), index+1, this.clases.to, index, numMoved);
-//
-//		this.clases.set(--size, null); // Let gc do its work
-//
-//		return oldValue;
-//	}
 
 	public boolean remove(Clase o) {
 		if (o == null) {
@@ -246,17 +155,6 @@ public class Equivalencia {
 
 		return ret;
 	}
-
-//	public Equivalencia clone() {
-//		ArrayList<Clase> temp = new ArrayList<Clase>();
-//
-//		for(Clase c : this.getClases()) {
-//			temp.add(new Clase(c));
-//		}
-//
-//		Equivalencia c = new Equivalencia(temp);
-//		return c;
-//	}
 
 	public int size() {
 		return this.clases.size();

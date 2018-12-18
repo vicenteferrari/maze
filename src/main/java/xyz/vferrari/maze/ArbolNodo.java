@@ -38,6 +38,8 @@ public class ArbolNodo {
 		// si entro a 1 desde 3 a la izquierda tengo 5 y a la der tengo 4.
 		// si entro a 1 desde 4, a la izq tengo 3 y a la der tengo 5.
 
+
+		// estas se pueden hacer funcion pero ... ya estamos dentro de una recursiva...
 		for (int i = index; i < nodo.getElemento().getVecinos().size(); ++i) {
 			if (!this.arbol.contains(nodo.getElemento().getVecinos().get(i))) {
 				ArbolNodo nuevo = new ArbolNodo(nodo.getElemento().getVecinos().get(i), this.arbol);
@@ -60,39 +62,15 @@ public class ArbolNodo {
 		return elemento;
 	}
 
-	public void setElemento(Nodo elemento) {
-		this.elemento = elemento;
-	}
-
 	public int getId() {
 		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Arbol getArbol() {
-		return arbol;
 	}
 
 	public void setArbol(Arbol arbol) {
 		this.arbol = arbol;
 	}
 
-	public Nodo getPadre() {
-		return padre;
-	}
-
-	public void setPadre(Nodo padre) {
-		this.padre = padre;
-	}
-
 	public ArrayList<ArbolNodo> getHijos() {
 		return hijos;
-	}
-
-	public void setHijos(ArrayList<ArbolNodo> hijos) {
-		this.hijos = hijos;
 	}
 }

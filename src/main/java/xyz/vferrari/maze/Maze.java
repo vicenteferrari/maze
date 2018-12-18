@@ -20,18 +20,14 @@ public class Maze {
 	private int gradoMasAlto;
 	private String input;
 
-	// el laberinto tambien tiene una lista variable de equivalencias de equivalencia
+	// el laberinto tambien tiene una lista variable de equivalencias
 	private ArrayList<Equivalencia> equivalencias = new ArrayList<Equivalencia>();
 
-	// luego poner cada nodo en su conjunto con su grado. no se si usar Set o Clase...
-
-	// todo: gotta implemet a conjunto class to be able to do proper copy and equals.
 
 	// la clase maze puede construirse con un String bien formado
 
 	Maze(String input) {
 		this.input = input;
-//		generarAL();
 		generarNodos(input);
 		gradoMasAlto();
 		init();
@@ -68,9 +64,7 @@ public class Maze {
 	public void resolver() {
 		generarEquivalencia0();
 		this.equivalencias.get(0).eliminarClasesVacias();
-//		System.out.println("Equivalencia 0: " + this.toString());
 		siguientesPasadas();
-		//ultimaPasada();
 	}
 
 	private void generarEquivalencia0() {
@@ -194,15 +188,6 @@ public class Maze {
 
 		return true;
 	}
-
-//	private boolean compareTrees(Arbol arbol1, Arbol arbol2) {
-//		int index = 0;
-//		while (true) {
-//			for ()
-//
-//				++index;
-//		}
-//	}
 
 	private boolean compareEquivalencias(Equivalencia e1, Equivalencia e2) {
 		for (int i = 0; i < e1.getClases().size(); ++i) {

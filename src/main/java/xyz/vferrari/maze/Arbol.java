@@ -19,10 +19,6 @@ public class Arbol {
 		++size;
 	}
 
-	public Arbol() {
-		this.raiz = null;
-	}
-
 	public boolean contains(Nodo nodo) {
 		return m.containsValue(nodo);
 	}
@@ -38,18 +34,6 @@ public class Arbol {
 
 	public ArbolNodo getRaiz() {
 		return raiz;
-	}
-
-	public void setRaiz(ArbolNodo raiz) {
-		this.raiz = raiz;
-	}
-
-	public int getSize() {
-		return size;
-	}
-
-	public void setSize(int size) {
-		this.size = size;
 	}
 
 	public Maze getMaze() {
